@@ -1,0 +1,168 @@
+
+# Small EC2 Instance Airflow Tutorial
+
+## EC2 Configuration
+- Instance Type: T2.small
+- Key Pair: Create a new key pair
+- Image: Ubuntu
+- Image version : Ubuntu server 22.04 LTS(HVM) SSD VOLUME TYPE
+
+## Connect to EC2 Instance
+After launching your EC2 instance, connect to it in aws
+
+
+## Commands to Run
+
+
+1.sudo apt update
+
+# Install Python 3 and pip:
+
+2.sudo apt install python3-pip
+
+# Install the Python 3.10 virtual environment package:
+
+3.sudo apt install python3.10-venv
+
+# Create a Python virtual environment:
+
+4.python3 -m venv airflow_venv
+
+# Activate the virtual environment:
+
+5.source airflow_venv/bin/activate
+
+# Install PostgreSQL development libraries:
+
+6. sudo apt-get install libpq-dev
+
+# Install Apache Airflow with PostgreSQL support:
+
+7.pip install "apache-airflow[postgres]==2.5.0" --constraint "https://raw.githubusercontent.com/apache/airflow/constraints-2.5.0/constraints-3.7.txt"
+
+# Initialize the Airflow database:
+
+8. airflow db init
+
+# Install PostgreSQL and its contrib package:
+
+9. sudo apt-get install postgresql postgresql-contrib
+
+# Switch to the PostgreSQL user:
+
+10. sudo -i -u postgres
+
+# Access the PostgreSQL shell:
+
+11. psql
+
+# Create the Airflow database and user:
+
+12.CREATE DATABASE airflow;
+CREATE USER airflow WITH PASSWORD 'airflow';
+GRANT ALL PRIVILEGES ON DATABASE airflow TO airflow;
+
+
+13. Exit the PostgreSQL shell by pressing Ctrl + D.
+
+# Navigate to the Airflow directory:
+
+14.cd airflow
+
+# Replace the connection string in the airflow.cfg file to use PostgreSQL instead of SQLite:
+
+15. sed -i 's#sqlite:////home/ubuntu/airflow/airflow.db#postgresql+psycopg2://airflow:airflow@localhost/airflow#g' airflow.cfg
+
+# Verify the SQL Alchemy connection string:
+
+16. grep sql_alchemy airflow.cfg
+
+# Check the executor configuration:
+
+17. grep executor airflow.cfg
+
+# Replace SequentialExecutor with LocalExecutor:
+
+18. sed -i 's#SequentialExecutor#LocalExecutor#g' airflow.cfg
+
+# Re-initialize the Airflow database:
+
+19. airflow db init
+
+# Create an Airflow user:
+
+20. airflow users create -u airflow -f airflow -l airflow -r Admin -e airflow@gmail.com
+
+Enter Password: airflow
+Repeat Password: airflow
+
+21 . Update security group inbound rules in your EC2 instance:
+
+--- Type: Custom TCP
+--- Port Range: 8080
+--- Source: Anywhere (IPV4)
+--- Save the rules.
+
+# Start the Airflow webserver:
+
+22 . airflow webserver &
+
+# Start the Airflow scheduler:
+
+23. airflow scheduler
+
+# Copy the public IPv4 DNS of your EC2 instance and open it in your browser with port 8080:
+
+24 . http://your-ec2-public-ip:8080
+
+# Use below dag code as a test. make sure to mkdir dag folder and then put this .py script in there!
+
+25. Cd airflow 
+
+26. mkdir dags
+
+27. touch my_first_dag
+
+28 . vim my_first_dag
+
+# INSERT THE CODE IN THE MY_FIRST_DAG
+
+from airflow import DAG
+from airflow.operators.dummy_operator import DummyOperator
+from datetime import datetime
+
+default_args = {
+    'owner': 'airflow',
+    'start_date': datetime(2025, 1, 1),
+    'retries': 1,
+}
+
+dag = DAG(
+    'my_new_dag',
+    default_args=default_args,
+    schedule_interval='@daily',
+)
+
+start = DummyOperator(task_id='start', dag=dag)
+end = DummyOperator(task_id='end', dag=dag)
+
+start >> end
+
+
+# After complete the dags come out the dags to  this point source airflow_venv/bin/activate and install the packages.
+
+command for this to come out (29. cd .. )
+
+30. pip install pandas
+
+31. pip install s3fs
+
+32. apt install AWSCLI
+
+# After install the awscli
+
+33. aws configure 
+
+# create the access key in aws account
+
+34. Give your access key and id  and region and file format.
