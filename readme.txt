@@ -1,18 +1,18 @@
-👉 Automated Weather Data Pipeline using Apache Airflow & AWS
+# Automated Weather Data Pipeline using Apache Airflow & AWS
 
-👉 Project Overview
+# Project Overview
 
 This project implements a fully automated ETL pipeline that collects real-time weather data from the Open Weather API, processes it using Python, orchestrates tasks using Apache Airflow, and stores the cleaned data in Amazon S3 on a daily schedule.
 
 The pipeline is deployed on an AWS EC2 instance, following production-like data engineering practices.
 
-👉 Architecture:
+# Architecture:
 
 Open Weather API → Python Transformations → Apache Airflow DAG
 → AWS EC2 → Amazon S3 (Daily Storage)
 
 
-👉 Technologies Used:
+# Technologies Used:
 
 Python – Data extraction & transformation
 
@@ -27,7 +27,7 @@ Python – Data extraction & transformation
 6. Linux – Server & environment management
 
 
-👉 Pipeline Workflow:
+# Pipeline Workflow:
 
 Extract real-time weather data using OpenWeather API
 
@@ -41,7 +41,7 @@ Extract real-time weather data using OpenWeather API
 
 6. Ensure automation and fault tolerance
 
-👉 Key Features:
+# Key Features:
 
 Fully automated ETL pipeline
 
@@ -53,7 +53,7 @@ Fully automated ETL pipeline
 
 5.Daily scheduled execution
 
-👉 Future Enhancements:
+# Future Enhancements:
 
 Load data into PostgreSQL / Redshift
 
