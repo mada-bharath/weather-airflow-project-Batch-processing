@@ -61,7 +61,7 @@ Load data into PostgreSQL / Redshift
 
 3. Implement real-time streaming
 
-Author:
+# Author:
 
 MADA Bharath Reddy
 Aspiring Data Engineer | AWS | Airflow | Python
